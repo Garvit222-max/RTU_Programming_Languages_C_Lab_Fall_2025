@@ -1,6 +1,6 @@
 /*
  * Lab 3, Task 2
- * Student Name, Student ID
+ * Garvit, 241ADB140
  *
  * Practice using pointers as function parameters.
  * Implement:
@@ -27,6 +27,7 @@ void modify_value(int *x);
 int main(void) {
     int a = 3, b = 7;
     printf("Before swap: a=%d, b=%d\n", a, b);
+
     swap(&a, &b);
     printf("After swap: a=%d, b=%d\n", a, b);
 
@@ -38,9 +39,11 @@ int main(void) {
 
 // Implement functions below
 void swap(int *x, int *y) {
-    // TODO: swap values using a temporary variable
+    int temp = *x;  // store value of x
+    *x = *y;        // put y into x
+    *y = temp;      // put original x into y
 }
 
 void modify_value(int *x) {
-    // TODO: multiply value by 2
+    *x = *x * 2;    // multiply value pointed by x by 2
 }
