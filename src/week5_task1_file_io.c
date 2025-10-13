@@ -1,27 +1,74 @@
-// week5_task1_file_io.c
-// Task 1: Read and write data from text files
-// Week 5 – Files & Modular Programming
-// TODO: Fill in the missing parts marked below.
+/*
+ * week5_task1_file_io.c
+ * Task 1: Read and write data from text files
+ * Week 5 – Files & Modular Programming
+ *
+ * Name: [Garvit]
+ * Student ID: [241ADB140]
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(void) {
-    FILE *fp;
+    FILE *fp = NULL;             // Always initialize pointers
     char filename[100] = "data.txt";
     char line[256];
+    int lineCount = 0;
 
-    // TODO: 1. Open file for writing (mode = "w")
-    // TODO: 2. Check if file opened successfully
-    // TODO: 3. Write 2–3 lines of text to the file using fprintf()
-    // TODO: 4. Close the file
+    printf("Writing lines to %s...\n", filename);
 
-    // TODO: 5. Open file again for reading (mode = "r")
-    // TODO: 6. Use fgets() in a loop to read and print each line to the console
-    // TODO: 7. Close the file
+    /* 1. Open file for writing */
+    fp = fopen(filename, "w");
+    if (fp == NULL) {
+        fprintf(stderr, "Error: could not open %s for writing.\n", filename);
+        return EXIT_FAILURE;     // More portable than returning 1
+    }
 
-    // BONUS: ask user for filename instead of using default "data.txt"
-    // BONUS: count number of lines read
+    /* 2. Write a few lines of text */
+    if (fprintf(fp, "Hello, file I/O in C!\n") < 0 ||
+        fprintf(fp, "This is another line.\n") < 0 ||
+        fprintf(fp, "File handling is powerful!\n") < 0) {
+        fprintf(stderr, "Error: writing to file failed.\n");
+        fclose(fp);
+        return EXIT_FAILURE;
+    }
 
-    return 0;
+    /* 3. Close the file */
+    if (fclose(fp) != 0) {
+        fprintf(stderr, "Error: could not close %s after writing.\n", filename);
+        return EXIT_FAILURE;
+    }
+
+    /* 4. Open the file again for reading */
+    fp = fopen(filename, "r");
+    if (fp == NULL) {
+        fprintf(stderr, "Error: could not open %s for reading.\n", filename);
+        return EXIT_FAILURE;
+    }
+
+    printf("Reading contents:\n");
+
+    /* 5. Read each line using fgets() */
+    while (fgets(line, (int)sizeof(line), fp) != NULL) {
+        printf("%s", line);
+        lineCount++;
+    }
+
+    if (ferror(fp)) {  // Check for read errors
+        fprintf(stderr, "Error: reading from %s failed.\n", filename);
+        fclose(fp);
+        return EXIT_FAILURE;
+    }
+
+    /* 6. Close the file after reading */
+    if (fclose(fp) != 0) {
+        fprintf(stderr, "Error: could not close %s after reading.\n", filename);
+        return EXIT_FAILURE;
+    }
+
+    printf("\nTotal lines read: %d\n", lineCount);
+
+    return EXIT_SUCCESS;
 }
+

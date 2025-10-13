@@ -170,8 +170,5 @@ help:
 	@echo "  make run-lab4     # Build and run all Week 4 programs"
 	@echo "  make run-lab5     # Build and run Week 5 programs"
 
-# -----------------------
-# Cleanup
-# -----------------------
-clean:
-	rm -rf $(BUILD_DIR)/*.o $(PROGRAMS)
+
+
